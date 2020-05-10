@@ -9,6 +9,7 @@ const app = express();
 
 // routes
 const users = require('./routes/users');
+const jobs = require('./routes/jobs');
 
 
 // config settings
@@ -26,10 +27,13 @@ mongoose.connect('mongodb+srv://startup11:startup11@startup-cluster-jeh4j.mongod
   .then(() => console.log('Connected to databases...'))
   .catch(err => console.error('Could not connect to database...',err.message));
 
+  mongoose.set('useFindAndModify', false);
+
 app.use(express.json());
 
 
 app.use('/user', users);
+app.use('/job', jobs)
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));

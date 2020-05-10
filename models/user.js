@@ -28,3 +28,4 @@ function validateuser (user) {
 
 exports.validateuser = validateuser;
 exports.User = User;
+exports.userSchema = userSchema
