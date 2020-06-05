@@ -5,7 +5,7 @@ const config = require('config')
 
 const userSchema = new mongoose.Schema({
     name: {type: String, required: true, minlength: 5, maxlength: 50},
-    email: {type: String, required: true, unique: true, minlength: 5, maxlength: 255},
+    email: {type: String, required: true, unique: false,  minlength: 5, maxlength: 255},
     password: {type: String, required: true, minlength: 5, maxlength: 1024},
     isAdmin: Boolean
 })
