@@ -27,7 +27,8 @@ router.post('/create', async (req, res) => {
             name: user.name,
             email: user.email,
             password: user.password
-        }
+        },
+        time: req.body.time
     })
 
     job.save((err, result) => {
@@ -53,7 +54,8 @@ router.put('/update/:id',async(req, res) => {
             name: user.name,
             email: user.email,
             password: user.password
-        }
+        },
+        time: req.body.time
     }, {new: true})
 
     if (!job) return res.status(404).send('The job with the given id not found')
