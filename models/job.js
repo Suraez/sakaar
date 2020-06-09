@@ -22,7 +22,6 @@ const jobSchema = new mongoose.Schema({
     //better implementation
     user: {
         type: userSchema,
-        required: true
     }
 })
 
@@ -34,7 +33,7 @@ function validateJob (job) {
         description: Joi.string().required().min(5).max(255),
         categories: Joi.array().required(),
         budget: Joi.number().required(),
-        userId: Joi.string().required()
+        userId: Joi.string()
     }
 
     return Joi.validate(job, schema);
