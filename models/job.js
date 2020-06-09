@@ -24,7 +24,6 @@ const jobSchema = new mongoose.Schema({
     //better implementation
     user: {
         type: userSchema,
-        required: true
     }
 })
 
