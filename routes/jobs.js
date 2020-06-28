@@ -3,18 +3,21 @@ const express = require('express')
 const router = express.Router()
 const { User } = require('../models/user')
 
+// middleware
+const authorization = require('../middleware/authorization')
+
 router.get('/all', async (req, res) => {
     const jobs = await Job.find()
     res.send(jobs)
 })
 
-router.post('/create', async (req, res) => {
+router.post('/create', authorization, async (req, res) => {
 
     const {error} = validateJob(req.body)
-    if (error) return res.status(404).send(error.details[0].message)
+    if (error) return res.status(404).send(error.details[0].message,"first")
 
 
-    const user = await User.findById(req.body.userId)
+    const user = await User.findById(req.user._id)
     if (!user) return res.status(404).send('The user with the given Id not found')
 
     const job = new Job({
@@ -37,11 +40,11 @@ router.post('/create', async (req, res) => {
     })
 })
 
-router.put('/update/:id',async(req, res) => {
+router.put('/update/:id',authorization, async(req, res) => {
     const {error} = validateJob(req.body)
     if (error) return res.status(400).send(error.details[0].message)
 
-    const user = await User.findById(req.body.userId)
+    const user = await User.findById(req.user._id)
     if (!user) return res.status(404).send('The user with the given Id not found')
 
     const job = await Job.findByIdAndUpdate(req.params.id, {
@@ -63,16 +66,16 @@ router.put('/update/:id',async(req, res) => {
 })
 
 
-router.delete('/delete/:id',(req, res) => {
+router.delete('/delete/:id',authorization, async(req, res) => {
 
-    Job.deleteOne({_id: req.params.id})
-      .exec()
-      .then(result => {
-          res.status(200).send('Successfully Deleted!')
-      })
-      .catch(err => {
-          res.status(404).send('The given job Id not found.')
-      })
+    const job = await Job.findByIdAndDelete({_id: req.params.id})
+
+    if (!job) return res.status(400).send("The job with the given ID not found")
+
+    res.status(200).json({
+        job,
+        message: "Successfully deleted!!"
+    })
 })
 
 

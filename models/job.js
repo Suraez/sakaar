@@ -35,7 +35,6 @@ function validateJob (job) {
         description: Joi.string().required().min(5).max(255),
         categories: Joi.string().required(),
         budget: Joi.string().required(),
-        userId: Joi.string().required(),
         time: Joi.string().required(),
     }
 
