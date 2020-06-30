@@ -14,7 +14,7 @@ router.get('/all', async (req, res) => {
 router.post('/create', authorization, async (req, res) => {
 
     const {error} = validateJob(req.body)
-    if (error) return res.status(404).send(error.details[0].message,"first")
+    if (error) return res.status(404).send(error.details[0].message)
 
 
     const user = await User.findById(req.user._id)
